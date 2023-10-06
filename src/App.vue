@@ -2,7 +2,7 @@
   <div  class="flex w-screen h-screen"  style="min-width: 800px; overflow-x: auto;">
 
 
-    <div class="flex flex-col sidebar-background w-36 h-[850px] bg-[#edf6f9]">
+    <div class="flex flex-col sidebar-background w-36 h-full min-h-[850px] bg-[#edf6f9]">
       <div id="logo" :style="logoStyle" class="w-full h-24"></div>
 
       <div class="flex flex-col w-full h-full items-end">
@@ -39,7 +39,7 @@
       <div class="flex w-full h-full">
 
 
-        <div class="flex flex-col w-1/3 h-[850px] bg-[#edf6f9]">
+        <div class="flex flex-col w-1/3 h-full min-h-[850px] bg-[#edf6f9] border-2 border-black">
             <div id="main-chat" class="flex w-full">      
               <div class="w-16 h-16 ml-5 mt-5 rounded-fullborder-2 border-black" :style="code"></div>
               <div>
@@ -65,7 +65,7 @@
             <component :is="currentComponent" />
         </div>
 
-        <div  class="flex flex-col w-2/3 h-[850px] bg-[#edf6f9] p-6">
+        <div  class="flex flex-col w-2/3 h-full min-h-[850px] bg-[#edf6f9] p-6">
           <div :style="backgroundStyle" class="h-full border-2 rounded-2xl">
             <Chat/>
           </div>     

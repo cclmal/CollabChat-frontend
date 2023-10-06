@@ -26,6 +26,18 @@
       </div>
 
 
+      <div class="flex mb-10 ml-5">
+        <a href="https://github.com/cclmal/CollabChat-frontend" class="text-xl font-bold ">
+            Github Repo 
+        </a>
+        <div class="ml-2 mt-1">
+            <Icon>
+                <Click/>
+            </Icon>
+        </div>
+      </div>
+
+
 </template>
 
 
@@ -36,6 +48,8 @@ import mistery from '../assets/mistery.jpg'
 import anime from '../assets/anime.jpg'
 import music from '../assets/music.jpg'
 import code from '../assets/code.jpg'
+import { Icon } from '@vicons/utils'
+import { Click } from '@vicons/tabler'
 
 
 
@@ -43,9 +57,10 @@ export default {
 
 
     name: 'Chats',
-
-
-
+    components: { 
+        Icon,
+        Click 
+    },
     computed: {
         friends() {
         return {
