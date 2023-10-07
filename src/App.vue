@@ -1,5 +1,5 @@
 <template>
-  <div  class="flex w-screen h-screen"  style="min-width: 800px; overflow-x: auto;">
+  <div id="cContainer" class="flex w-screen h-screen min-h-[850px] min-w-[850px] overflow-x-auto">
 
 
     <div class="flex flex-col sidebar-background w-36 h-full min-h-[850px] bg-[#edf6f9]">
