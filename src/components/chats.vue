@@ -29,7 +29,7 @@
       <div class="flex flex-col mb-8 ml-5 ">
         <h1 class="text-xl mb-3 font-bold">Developed by cclmal & Zabdiel</h1>
         <a href="https://github.com/cclmal/CollabChat-frontend" class="text-sm">
-            Fronted By cclmal
+            Frontend By cclmal
         </a>
         <a href="https://github.com/cclmal/CollabChat-backend" class="text-sm">
             Backend By Zabdiel
