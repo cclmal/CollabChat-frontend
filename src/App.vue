@@ -1,7 +1,7 @@
 <template>
       <div class="flex w-screen h-screen border-2 border-black overflow-x-auto">
     
-          <div id="sidebar" class="flex flex-col sidebar-background w-36 h-full min-h-[850px] bg-[#edf6f9]">
+          <div id="sidebar" class="flex flex-col sidebar-background w-36 h-full min-w-[130px] min-h-[850px] bg-[#edf6f9]">
               <div id="logo" :style="logoStyle" class="w-full h-24"></div>
         
               <div class="flex flex-col w-full h-full items-end">
@@ -34,7 +34,7 @@
     
           
     
-          <div id="chats-related" class="flex w-full h-full min-h-[850px]">
+          <div id="chats-related" class="flex w-full h-full min-w-[850px] min-h-[850px]">
               <div id="chats" class="flex flex-col w-1/3 h-full min-h-[850px] bg-[#edf6f9]">
                   <div id="main-chat" class="flex w-full">      
                     <div class="w-16 h-16 ml-5 mt-5 rounded-fullborder-2 border-black" :style="code"></div>
