@@ -1,90 +1,91 @@
 <template>
-  <div id="cContainer" class="flex w-screen h-screen min-h-[850px] min-w-[850px] overflow-x-auto">
-
-
-    <div class="flex flex-col sidebar-background w-36 h-full min-h-[850px] bg-[#edf6f9]">
-      <div id="logo" :style="logoStyle" class="w-full h-24"></div>
-
-      <div class="flex flex-col w-full h-full items-end">
-
-            <!-- <Sidebar/> -->
-            <div class="flex flex-col h-[50%] w-full items-center">
-              <button class="mb-6 mr-1 mt-5" @mouseover="setHovered('chat')" @mouseout="clearHovered">
-                  <Icon size="36" :color="hoveredIcon === 'chat' ? '#61a5c2' : 'black'"> <ChatMultiple20Regular/> </Icon>
-              </button>
-              <button class="mb-5" @mouseover="setHovered('group')" @mouseout="clearHovered">
-                  <Icon size="34" :color="hoveredIcon === 'group' ? '#61a5c2' : 'black'"> <GroupsTwotone/> </Icon>
-              </button>
-              <button class="mb-5" @mouseover="setHovered('bookmark')" @mouseout="clearHovered">
-                  <Icon size="34" :color="hoveredIcon === 'bookmark' ? '#61a5c2' : 'black'"> <BookmarkMultiple28Regular/> </Icon>
-              </button>
-              <button class="mb-5" @mouseover="setHovered('more')" @mouseout="clearHovered">
-                  <Icon size="34" :color="hoveredIcon === 'more' ? '#61a5c2' : 'black'"> <Add/> </Icon>
-              </button>
+      <div class="flex w-screen h-screen border-2 border-black overflow-x-auto">
+    
+          <div id="sidebar" class="flex flex-col sidebar-background w-36 h-full min-h-[850px] bg-[#edf6f9]">
+              <div id="logo" :style="logoStyle" class="w-full h-24"></div>
+        
+              <div class="flex flex-col w-full h-full items-end">
+        
+                    <!-- <Sidebar/> -->
+                    <div class="flex flex-col h-[50%] w-full items-center">
+                      <button class="mb-6 mr-1 mt-5" @mouseover="setHovered('chat')" @mouseout="clearHovered">
+                          <Icon size="36" :color="hoveredIcon === 'chat' ? '#61a5c2' : 'black'"> <ChatMultiple20Regular/> </Icon>
+                      </button>
+                      <button class="mb-5" @mouseover="setHovered('group')" @mouseout="clearHovered">
+                          <Icon size="34" :color="hoveredIcon === 'group' ? '#61a5c2' : 'black'"> <GroupsTwotone/> </Icon>
+                      </button>
+                      <button class="mb-5" @mouseover="setHovered('bookmark')" @mouseout="clearHovered">
+                          <Icon size="34" :color="hoveredIcon === 'bookmark' ? '#61a5c2' : 'black'"> <BookmarkMultiple28Regular/> </Icon>
+                      </button>
+                      <button class="mb-5" @mouseover="setHovered('more')" @mouseout="clearHovered">
+                          <Icon size="34" :color="hoveredIcon === 'more' ? '#61a5c2' : 'black'"> <Add/> </Icon>
+                      </button>
+                  </div>
+                    <div class="flex flex-col h-[50%] w-full justify-end items-center">
+                      <button class="mb-6 mr-1"  @mouseover="setHovered('config')" @mouseout="clearHovered">
+                          <Icon size="32" :color="hoveredIcon === 'config' ? '#61a5c2' : 'black'"> <CloudSatelliteConfig/> </Icon>
+                      </button>
+                      <button class="mb-5"  @mouseover="setHovered('profile')" @mouseout="clearHovered">
+                          <Icon size="34" :color="hoveredIcon === 'profile' ? '#61a5c2' : 'black'"> <UserProfileAlt/> </Icon>
+                      </button>
+                  </div>
+              </div>
           </div>
-            <div class="flex flex-col h-[50%] w-full justify-end items-center">
-              <button class="mb-6 mr-1"  @mouseover="setHovered('config')" @mouseout="clearHovered">
-                  <Icon size="32" :color="hoveredIcon === 'config' ? '#61a5c2' : 'black'"> <CloudSatelliteConfig/> </Icon>
-              </button>
-              <button class="mb-5"  @mouseover="setHovered('profile')" @mouseout="clearHovered">
-                  <Icon size="34" :color="hoveredIcon === 'profile' ? '#61a5c2' : 'black'"> <UserProfileAlt/> </Icon>
-              </button>
+    
+          
+    
+          <div id="chats-related" class="flex w-full h-full min-h-[850px]">
+              <div id="chats" class="flex flex-col w-1/3 h-full min-h-[850px] bg-[#edf6f9]">
+                  <div id="main-chat" class="flex w-full">      
+                    <div class="w-16 h-16 ml-5 mt-5 rounded-fullborder-2 border-black" :style="code"></div>
+                    <div>
+                      <h2 class="ml-5 mt-5">General Chat</h2>
+                      <p class="ml-5 text-sm">{{connectedUsers}} Online</p>
+                    </div>     
+                  </div>
+      
+                  <div id="chatOptions" class="flex ml-auto mr-auto mt-7 w-[90%] h-12 border-b-2 ">
+                    
+                    <button @click="toggleView(true)" 
+                            class="flex cb w-[50%] h-12 border-b-2 border-r-2 justify-center items-center" 
+                            :class="{ 'active-button': count, 'inactive-button': !count }">
+                        <h3>Chats</h3>
+                    </button>
+                    <button @click="toggleView(false)" 
+                            class="flex cb w-[50%] h-12 border-b-2  justify-center items-center"
+                            :class="{ 'active-button': !count, 'inactive-button': count }">
+                      <h3>Recent</h3>
+                    </button>
+                  </div>
+                  
+                  <component :is="currentComponent" />
+              </div>
+    
+              <div id="chat" class="flex flex-col w-2/3 h-full min-h-[850px] bg-[#edf6f9] p-6">
+                <div :style="backgroundStyle" class="h-full border-2 rounded-2xl">
+                  <Chat/>
+                </div>     
+              </div>                      
           </div>
+      
       </div>
 
-    </div>
 
 
-    <div class="flex flex-col w-full h-full">
-      <div class="flex w-full h-full">
-
-
-        <div class="flex flex-col w-1/3 h-full min-h-[850px] bg-[#edf6f9]">
-            <div id="main-chat" class="flex w-full">      
-              <div class="w-16 h-16 ml-5 mt-5" :style="code"></div>
-              <div>
-                <h2 class="ml-5 mt-5">Code Chat</h2>
-                <p class="ml-5 text-sm">5 Online</p>
-              </div>     
-            </div>
-
-            <div id="chatOptions" class="flex ml-auto mr-auto mt-7 w-[90%] h-12 border-b-2 ">
-              
-              <button @click="toggleView(true)" 
-                      class="flex cb w-[50%] h-12 border-b-2 border-r-2 justify-center items-center" 
-                      :class="{ 'active-button': count, 'inactive-button': !count }">
-                  <h3>Chats</h3>
-              </button>
-              <button @click="toggleView(false)" 
-                      class="flex cb w-[50%] h-12 border-b-2  justify-center items-center"
-                      :class="{ 'active-button': !count, 'inactive-button': count }">
-                <h3>Recent</h3>
-              </button>
-            </div>
-             
-            <component :is="currentComponent" />
-        </div>
-
-        <div  class="flex flex-col w-2/3 h-full min-h-[850px] bg-[#edf6f9] p-6">
-          <div :style="backgroundStyle" class="h-full border-2 rounded-2xl">
-            <Chat/>
-          </div>     
-        </div>
-            
-      </div>
-    </div>
-  </div>
-
+    
 </template>
+  
 
 <script>
 
+import { ref, computed, inject } from 'vue'
+import { socketSymbol } from './main'; 
 import Chat from './components/chat.vue';
 import { Icon } from '@vicons/utils'
 import { ChatBot, UserProfile, UserProfileAlt, CloudSatelliteConfig, Add } from '@vicons/carbon'
 import {  AddCircleOutlineFilled, GroupsTwotone, GroupAddFilled } from '@vicons/material'
 import { ChatMultiple20Regular, BookmarkMultiple28Regular } from '@vicons/fluent'
-import { ref, computed } from 'vue'
+
 import code from './assets/code.jpg'
 import logo from './assets/logo.png'
 import bg2 from './assets/bg2.jpg'
@@ -116,7 +117,25 @@ export default {
     setup() {
       const count = ref(true);
       const hoveredIcon = ref(null);
+      const socket = inject(socketSymbol); 
+      const connectedUsers = ref(0);
 
+      socket.on('userConnected', ( users ) => {
+        if ( users.length > 0 ) {
+          connectedUsers.value = users.length;
+        } else {
+          connectedUsers.value = 0;
+        }
+      })
+
+      socket.on('userDisconnected', ( users ) => {
+        if ( users.length > 0 ) {
+          connectedUsers.value = users.length;
+        } else {
+          connectedUsers.value = 0;
+        }
+      })
+ 
       const toggleView = (showChats) => {
           count.value = showChats;
       };
@@ -139,7 +158,8 @@ export default {
           currentComponent,
           hoveredIcon,
           setHovered,
-          clearHovered
+          clearHovered,
+          connectedUsers
       };
     },
 

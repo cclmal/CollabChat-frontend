@@ -4,7 +4,7 @@
         <div class="flex flex-col space-y-4 w-full h-full">
             <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
                 <div class="rounded-full ml-5 w-10 h-10" :style="code"></div>
-                <h2 class="ml-5 font-bold">Code Chat</h2>
+                <h2 class="ml-5 font-bold">General Chat</h2>
             </button>
             <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
                 <div class="rounded-full ml-5 w-10 h-10" :style="friends"></div>
@@ -26,15 +26,14 @@
       </div>
 
 
-      <div class="flex mb-10 ml-5">
-        <a href="https://github.com/cclmal/CollabChat-frontend" class="text-xl font-bold ">
-            Github Repo 
+      <div class="flex flex-col mb-8 ml-5 ">
+        <h1 class="text-xl mb-3 font-bold">Developed by cclmal & Zabdiel</h1>
+        <a href="https://github.com/cclmal/CollabChat-frontend" class="text-sm">
+            Fronted By cclmal
         </a>
-        <div class="ml-2 mt-1">
-            <Icon>
-                <Click/>
-            </Icon>
-        </div>
+        <a href="https://github.com/cclmal/CollabChat-backend" class="text-sm">
+            Backend By Zabdiel
+        </a>
       </div>
 
 
