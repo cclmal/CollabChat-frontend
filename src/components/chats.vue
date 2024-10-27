@@ -27,12 +27,14 @@
 
 
       <div class="flex flex-col mb-8 ml-5 ">
-        <h1 class="text-xl mb-3 font-bold">Developed by cclmal & Zabdiel</h1>
-        <a href="https://github.com/cclmal/CollabChat-frontend" class="text-sm">
-            Frontend By cclmal
+        <h1 class="text-xl font-bold">Developed by Nemrod C.</h1>
+        <h4 class="text-[14px] mb-5 font-semibold">In collaboration with Zabdiel.</h4>
+
+        <a href="https://github.com/cclmal/CollabChat-frontend" class="flex items-center space-x-1 text-sm">
+            <span class="hover:text-blue-400 transition-colors duration-300 ease-in-out">Frontend</span>   <Icon size="15"><Click/></Icon>
         </a>
-        <a href="https://github.com/cclmal/CollabChat-backend" class="text-sm">
-            Backend By Zabdiel
+        <a href="https://github.com/cclmal/CollabChat-backend" class="flex items-center space-x-2 text-sm">
+          <span class="hover:text-blue-400 transition-colors duration-300 ease-in-out">Backend</span>   <Icon size="15"><Click/></Icon>
         </a>
       </div>
 
