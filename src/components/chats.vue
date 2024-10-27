@@ -30,11 +30,11 @@
         <h1 class="text-xl font-bold">Developed by Nemrod C.</h1>
         <h4 class="text-[14px] mb-5 font-semibold">In collaboration with Zabdiel.</h4>
 
-        <a href="https://github.com/cclmal/CollabChat-frontend" class="flex items-center space-x-1 text-sm">
-            <span class="hover:text-blue-400 transition-colors duration-300 ease-in-out">Frontend</span>   <Icon size="15"><Click/></Icon>
+        <a href="https://github.com/cclmal/CollabChat-frontend" class="flex items-center space-x-1 text-sm hover:text-blue-400 transition-colors duration-300 ease-in-out">
+           By N.  <span class="pl-2">Frontend</span>   <Icon size="15"><Click/></Icon>
         </a>
-        <a href="https://github.com/cclmal/CollabChat-backend" class="flex items-center space-x-2 text-sm">
-          <span class="hover:text-blue-400 transition-colors duration-300 ease-in-out">Backend</span>   <Icon size="15"><Click/></Icon>
+        <a href="https://github.com/cclmal/CollabChat-backend" class="flex items-center space-x-2 text-sm hover:text-blue-400 transition-colors duration-300 ease-in-out">
+          By Z. <span class="pl-2">Backend </span>   <Icon size="15"><Click/></Icon>
         </a>
       </div>
 
