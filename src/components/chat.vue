@@ -8,26 +8,27 @@
             </div>
 
             <ul v-else id="message" class="flex-grow overflow-y-auto mb-4">
-                  <li v-for="message in messages" :key="message.id" :class="message.sentBy === currentUser.id ? 'flex justify-end' : 'flex justify-start mb-4'">
-                      <div v-if="message.sentBy !== currentUser.id" class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="kitty(message)"></div>
-                        
-                      
-                      <div class="flex flex-col w-[30%]" :class="message.sentBy === currentUser.id ? 'items-end' : 'items-start'">
-                        <span class="text-xs text-gray-500">{{ message.sentBy === currentUser.id ? 'You' : message.username }}</span>
-                          <span 
-                              class="max-w-[70%] py-2 px-4 my-1 rounded-lg" 
-                              :class="{
-                                  'bg-blue-500 text-white': message.sentBy === currentUser.id,
-                                  'bg-[#edf2f4]': message.sentBy !== currentUser.id
-                              }"
-                          >
-                              {{ message.text }}
-                          </span>
-                      </div>
-
-                      <div v-if="message.sentBy === currentUser.id"  class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="doggy(message)"></div> 
-                  </li>
-            </ul>     
+              <li v-for="message in messages"  :key="message.id" class="mb-3" :class="message.sentBy === currentUser.id ? 'flex justify-end' : 'flex justify-start mb-4'">
+                <div v-if="message.sentBy !== currentUser.id" class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="kitty(message)"></div>
+                  
+                <div class=" flex flex-col max-w-[80%] space-y-1" :class="message.sentBy === currentUser.id ? 'items-end' : 'items-start'">       
+                  <span class="text-xs text-gray-500">{{ message.sentBy === currentUser.id ? 'You' : message.username }}</span>
+                  <span 
+                    class="w-full py-2 px-4 rounded-lg  break-words whitespace-pre-wrap" 
+                    :class="{
+                      'bg-blue-500 text-white': message.sentBy === currentUser.id,
+                      'bg-[#edf2f4]': message.sentBy !== currentUser.id
+                    }"
+                  >
+                  
+                    {{ message.text }}
+                  </span>
+                </div>
+            
+                <div v-if="message.sentBy === currentUser.id" class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="doggy(message)"></div> 
+              </li>
+            </ul>
+             
 
             <div class="flex h-14 border-t bg-[#edf6f9] border-gray-300 border-2  rounded-2xl">
 
