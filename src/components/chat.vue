@@ -1,59 +1,66 @@
 <template>
-    <div class="flex flex-col w-full h-full p-4 rounded-2xl shadow-2xl chat-background" >
-      <div class="flex-grow overflow-y-auto mb-4">
-        <ul>
-            <li v-for="message in messages" :key="message.id" :class="message.sentBy === currentUser.id ? 'flex justify-end' : 'flex justify-start mb-4'">
-                <div v-if="message.sentBy !== currentUser.id" class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="kitty(message)"></div> <!-- Círculo a la izquierda para mensajes recibidos -->
-                  
+    <div id="chat-container" class="chat-container">
+        <div id="chat" :style="backgroundStyle" class="chat chat-background">
+
+            <div v-if="!hasMessages" id="presentation" class="flex flex-col flex-grow text-center justify-center items-center mb-4" >
+              <div :style="logoStyle" class=" w-[15rem] h-20 "/> 
+              <p class="text-[1rem] font-semibold" >Start chatting with a friend connected from another browser!</p>           
+            </div>
+
+            <ul v-else id="message" class="flex-grow overflow-y-auto mb-4">
+                  <li v-for="message in messages" :key="message.id" :class="message.sentBy === currentUser.id ? 'flex justify-end' : 'flex justify-start mb-4'">
+                      <div v-if="message.sentBy !== currentUser.id" class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="kitty(message)"></div>
+                        
+                      
+                      <div class="flex flex-col w-[30%]" :class="message.sentBy === currentUser.id ? 'items-end' : 'items-start'">
+                        <span class="text-xs text-gray-500">{{ message.sentBy === currentUser.id ? 'You' : message.username }}</span>
+                          <span 
+                              class="max-w-[70%] py-2 px-4 my-1 rounded-lg" 
+                              :class="{
+                                  'bg-blue-500 text-white': message.sentBy === currentUser.id,
+                                  'bg-[#edf2f4]': message.sentBy !== currentUser.id
+                              }"
+                          >
+                              {{ message.text }}
+                          </span>
+                      </div>
+
+                      <div v-if="message.sentBy === currentUser.id"  class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="doggy(message)"></div> 
+                  </li>
+            </ul>     
+
+            <div class="flex h-14 border-t bg-[#edf6f9] border-gray-300 border-2  rounded-2xl">
+
+                <input class="flex-grow px-4 py-2 outline-none rounded-2xl" placeholder="Type..." v-model="newMessage" @keyup.enter="sendMessage">
                 
-                <div class="flex flex-col w-[30%]" :class="message.sentBy === currentUser.id ? 'items-end' : 'items-start'">
-                  <span class="text-xs text-gray-500">{{ message.sentBy === currentUser.id ? 'You' : message.username }}</span>
-                    <span 
-                        class="max-w-[70%] py-2 px-4 my-1 rounded-lg" 
-                        :class="{
-                            'bg-blue-500 text-white': message.sentBy === currentUser.id,
-                            'bg-[#edf2f4]': message.sentBy !== currentUser.id
-                        }"
-                    >
-                        {{ message.text }}
-                    </span>
-                </div>
+                <button class="w-10 rounded-r-lg focus:outline-none" @click="sendMessage">
+                  <div class="mt-1 ">
+                      <Icon  size="20" color="black"><Link/></Icon>
+                  </div>      
+                </button>
 
-                <div v-if="message.sentBy === currentUser.id"  class="w-6 h-6 mx-2 bg-gray-400 rounded-full" :style="doggy(message)"></div> <!-- Círculo a la derecha para mensajes enviados por mí -->
-            </li>
-        </ul>     
-      </div>
-  
-      <div class="flex h-14 border-t bg-[#edf6f9] border-gray-300 border-2  rounded-2xl">
+                <button class="w-10 rounded-r-lg focus:outline-none" @click="sendMessage">
+                  <div class="mt-1">
+                      <Icon  size="20" color="black"><EmojiEmotionsOutlined/></Icon>
+                  </div>      
+                </button>
 
-          <input class="flex-grow px-4 py-2 outline-none  rounded-2xl" placeholder="Type..." v-model="newMessage" @keyup.enter="sendMessage">
-          
-          <button class="w-10 rounded-r-lg focus:outline-none" @click="sendMessage">
-            <div class="mt-1 ">
-                <Icon  size="20" color="black"><Link/></Icon>
-            </div>      
-          </button>
-
-          <button class="w-10 rounded-r-lg focus:outline-none" @click="sendMessage">
-            <div class="mt-1">
-                <Icon  size="20" color="black"><EmojiEmotionsOutlined/></Icon>
-            </div>      
-          </button>
-
-          <button class="w-10 mr-2 rounded-r-lg focus:outline-none" @click="sendMessage">
-            <div class="mt-1">
-                <Icon  size="20" color="black"><SendAlt/></Icon>
-            </div>      
-          </button>
-
-      </div>
+                <button class="w-10 mr-2 rounded-r-lg focus:outline-none" @click="sendMessage">
+                  <div class="mt-1">
+                      <Icon  size="20" color="black"><SendAlt/></Icon>
+                  </div>      
+                </button>
+            </div>
+        </div>
     </div>
   </template>
   
   <script>
-    import { ref, inject } from 'vue';
+    import { ref, inject, computed } from 'vue';
     import { socketSymbol } from '../main'; 
+    import logo from '../assets/logo.png'
     import { Icon } from '@vicons/utils';
+    import bg2 from '../assets/bg2.jpg'
     import { SendAlt, Link } from '@vicons/carbon'
     import { EmojiEmotionsOutlined, AddCircleOutlineFilled } from '@vicons/material'
   
@@ -71,7 +78,8 @@
       const socket = inject(socketSymbol);
       const messages = ref([]);
       const newMessage = ref('');
-
+      const connectedUsers = ref(0);
+      const hasMessages = computed(() => messages.value.length > 0);
 
 
       socket.on('connect', () => {
@@ -84,7 +92,6 @@
         }
       });
 
-
       socket.on('usernameTaken', (msg) => {
         alert(msg);
         const inputUsername = prompt("Enter a username:");
@@ -96,7 +103,6 @@
         }
       });
 
-
       socket.on('userConnected', ( users ) => {
         const userObj = users.find(user => user.id === socket.id);
         if (userObj) {
@@ -106,8 +112,9 @@
 
       socket.on('chat message', (msg) => {
             messages.value.push(msg);
-    });
-  
+      });
+
+
       const sendMessage = () => {
             if (newMessage.value.trim() !== '') {
                 const message = {
@@ -122,18 +129,32 @@
                 socket.emit('chat message', message);
                 newMessage.value = '';
             }
-        };
-  
-
+      };
 
       return {
         messages,
         newMessage,
         sendMessage,
         currentUser,
+        connectedUsers,
+        hasMessages
       };
     },
     computed: {
+      logoStyle() {
+          return {
+            backgroundImage: `url(${logo})`,
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center center' 
+          };
+        },
+      backgroundStyle() {
+        return {
+            backgroundImage: `url(${bg2})`,
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center center' 
+          };
+      },
       kitty() {
         return (message) => {
           return {

@@ -1,111 +1,94 @@
 <template>
-
-    <div class="w-full h-full">
-        <div class="flex flex-col space-y-4 w-full h-full">
-            <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
-                <div class="rounded-full ml-5 w-10 h-10" :style="code"></div>
-                <h2 class="ml-5 font-bold">General Chat</h2>
-            </button>
-            <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
-                <div class="rounded-full ml-5 w-10 h-10" :style="friends"></div>
-                <h2 class="ml-5 font-bold">Friends</h2>
-            </button>
-            <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
-                <div class="rounded-full ml-5 w-10 h-10" :style="mistery"></div>
-                <h2 class="ml-5 font-bold">Mistery</h2>
-            </button>
-            <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
-                <div class="rounded-full ml-5 w-10 h-10" :style="anime"></div>
-                <h2 class="ml-5 font-bold">Anime</h2>
-            </button>
-            <button class="flex items-center w-[90%] h-16 border-b-2 ml-auto mr-auto mt-[30px] hover:border-[#61a5c2] transition-colors duration-300 ease-in-out">
-                <div class="rounded-full ml-5 w-10 h-10" :style="music"></div>
-                <h2 class="ml-5 font-bold">Music</h2>
-            </button>                 
+    <div id="chats" class="minHeight hidden md:flex flex-col w-1/3 h-screen bg-[#edf6f9]">      
+        <!-- Contenedor principal de Chat -->
+        <div id="main-chat" class="flex w-full">      
+          <div class="w-16 h-16 ml-5 mt-5 rounded-full" :style="code"></div>
+          <div>
+            <h2 class="ml-5 mt-5">General Chat</h2>
+            <p class="ml-5 text-sm">{{connectedUsers}} Online</p>
+          </div>     
+        </div>
+        
+        <!-- Opciones de Chat -->
+        <div id="chatOptions" class="flex mx-auto mt-7 w-[90%] h-12 border-b-2 ">
+          <button @click="toggleView(true)" 
+                  class="flex cb w-[50%] h-12 border-b-2 border-r-2 justify-center items-center" 
+                  :class="{ 'active-button': count, 'inactive-button': !count }">
+              <h3>Chats</h3>
+          </button>
+          <button @click="toggleView(false)" 
+                  class="flex cb w-[50%] h-12 border-b-2  justify-center items-center"
+                  :class="{ 'active-button': !count, 'inactive-button': count }">
+            <h3>Recent</h3>
+          </button>
+        </div>
+        
+        <!-- Componente dinámico con flex-grow para tomar espacio restante -->
+        <div class="flex-grow overflow-y-auto border-t-2 ">
+          <component :is="currentComponent" class="h-full w-full flex flex-col" />
         </div>
       </div>
-
-
-      <div class="flex flex-col mb-8 ml-5 ">
-        <a href="https://github.com/cclmal/CollabChat-frontend" class="flex items-center space-x-1 text-sm hover:text-blue-400 transition-colors duration-300 ease-in-out">
-           <span class="pl-2 font-semibold">Frontend</span>   <Icon size="15"><Click/></Icon>
-        </a>
-        <a href="https://github.com/cclmal/CollabChat-backend" class="flex items-center space-x-2 text-sm hover:text-blue-400 transition-colors duration-300 ease-in-out">
-          <span class="pl-2 font-semibold">Backend </span>   <Icon size="15"><Click/></Icon>
-        </a>
-      </div>
-
-
 </template>
 
 
 <script>
 
-import friends from '../assets/friends.jpg'
-import mistery from '../assets/mistery.jpg'
-import anime from '../assets/anime.jpg'
-import music from '../assets/music.jpg'
+import { ref, computed, inject } from 'vue'
+import ChatButtons from './chat-buttons.vue'
+import recent from './recent.vue'
+import { socketSymbol } from '../main'; 
 import code from '../assets/code.jpg'
-import { Icon } from '@vicons/utils'
-import { Click } from '@vicons/tabler'
-
-
 
 export default {
-
-
     name: 'Chats',
-    components: { 
-        Icon,
-        Click 
+    components: {
+      ChatButtons,
+      recent,
+    },
+    setup(){
+        const count = ref(true);
+        const connectedUsers = ref(0);
+        const socket = inject(socketSymbol);
+
+        const toggleView = (showChats) => {
+            count.value = showChats;
+        };
+
+        const currentComponent = computed(() => {
+            return count.value ? 'ChatButtons' : 'recent';
+        });
+
+        socket.on('userConnected', ( users ) => {
+            if ( users.length > 0 ) {
+            connectedUsers.value = users.length;
+            } else {
+            connectedUsers.value = 0;
+            }
+        })
+
+        socket.on('userDisconnected', ( users ) => {
+            if ( users.length > 0 ) {
+            connectedUsers.value = users.length;
+            } else {
+            connectedUsers.value = 0;
+            }
+        })
+
+        return {
+            connectedUsers,
+            currentComponent,
+            toggleView
+        }
     },
     computed: {
-        friends() {
-        return {
-            backgroundImage: `url(${friends})`,
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center center' 
-        };
-        },
-        mistery() {
-        return {
-            backgroundImage: `url(${mistery})`,
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center center' 
-        };
-        },
-
-        anime() {
-        return {
-            backgroundImage: `url(${anime})`,
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center center' 
-        };
-        },
-        music() {
-        return {
-            backgroundImage: `url(${music})`,
-            backgroundSize: 'cover', 
-            backgroundPosition: 'center center' 
-        };
-        },
         code() {
-        return {
+          return {
             backgroundImage: `url(${code})`,
             backgroundSize: 'cover', 
             backgroundPosition: 'center center' 
-        };
+          };
         },
-        
-        },
-
+    },
 }
 
-
-
-
 </script>
-
-
-<style scoped>
-</style>
